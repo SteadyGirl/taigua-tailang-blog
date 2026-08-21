@@ -1,24 +1,27 @@
 # 导航菜单：
 menu:
-  # 首页:
-  #   link: /
-  #   icon: home
-  # 友链:
-  #   link: /links/
-  #   icon: link
-  # 关于:
-  #    link: /about/
-  #    icon: user 
+   首页:
+     link: /
+     icon: home
+   # 友链:
+   #  link: /links/
+   #  icon: link
+   # 关于:
+   #   link: /about/
+   #   icon: user 
+   标签:
+      link: /tags/
+      icon: tag
   # # 二级菜单示例
-  # 文章:
-  #   icon: folder
-  #   item:
-  #     分类:
-  #       link: /categories/
-  #       icon: folder
-  #     标签:
-  #       link: /tags/
-  #       icon: tag
+   文章:
+     icon: folder
+     item:
+       分类:
+         link: /categories/
+         icon: folder
+       标签:
+         link: /tags/
+         icon: tag
   #     归档:
   #       link: /archives/
   #       icon: archive
@@ -52,11 +55,11 @@ background:
 
 profile:
   role: 日常记录
-  bio: 介绍一下自己 — 一两句话，写写你想被别人记住的部分。
+  bio: 我不去想身后会不会袭来寒风冷雨，既然目标是地平线，留给世界的只能是背影。
   # 头像图片路径（站点根的 source/ 目录下）。留空则使用 CSS 绘制的默认头像。
-  avatar:
+  avatar: /images/iteiA.jpg
   # 头像图片形状：square（默认，原始方形）或 circle（应用圆形遮罩）
-  avatar_shape: square
+  avatar_shape: circle
   # Profile 卡片站点统计；为空或 false 隐藏，true 显示无链接，其他非空值渲染为链接
   site_info:
     # posts: /archives/
@@ -111,28 +114,32 @@ welcome:
 # 开启后默认复用 profile 的头像、简介、社交链接与 RSS，也可以在这里覆盖。
 home_hero:
   enable: true
-  # title: 太呱太郎
-  # subtitle: Nothing.
-  # bio: Nothing.
-  # avatar: /images/avatar.jpg
-  # avatar_shape: circle
+  title: 太呱太郎
+  subtitle: 正在开发中……
+  bio: 吹けば青嵐 言葉も飛ばしてしまえ
+  avatar: /images/iteiA.jpg
+  avatar_shape: circle
   #
   # 背景图。留空时使用主题内置的手账纸张背景；设置后图片会铺满开屏。
   # 也可配置为数组，浏览器每次载入随机使用一张。
-  # image: /images/hero.jpg
+  image: /images/itei4.jpg
   # image:
-  #   - /images/hero-1.jpg
-  #   - /images/hero-2.jpg
+  #   - /images/itei4.jpg
+  #   - /images/itei5.jpg
+  #   - /images/elma3.jpg
+  #   - /images/elma4.jpg
+  #   - /images/elma7.jpg
+  #   - /images/elma8.jpg
   # 移动端是否继续显示背景图；设为 false 时窄屏回退到纸张背景。
   mobile_image: true
   #
   # 背景图暗色遮罩透明度：[顶部, 底部]，范围 0-1。
-  # image_overlay: [0.2, 0.2]
+  image_overlay: [0.2, 0.2]
   # 底部贴纸按钮的文字与目标锚点；默认进入首页内容区。
-  # cta_text: 开始阅读
-  # cta_link: "#flatpaper-home-content"
+  cta_text: 开始阅读
+  cta_link: "#flatpaper-home-content"
   # 贴纸按钮背景：01-09、random，或自定义图片路径。
-  # cta_background: 01
+  贴纸按钮背景: /images/itei-right.png
   #
   # Hero 区域的快速导航链接。配置后将替代默认的波浪线分隔符。
   # hero_links:
@@ -148,15 +155,19 @@ home_hero:
     enable: true
     draggable: true
     # 内置便签贴纸的文字。
-    # note_text: 今日
     # 自定义图片贴纸最多渲染 5 张；加上内置便签后，开屏最多 6 个 sticker。link 可选，不配置则只是可拖动装饰。
-    # items:
-    #   - image: /images/stickers/memo.png
-    #     alt: 手账贴纸
-    #     size: 96
-    #   - image: /images/stickers/github.png
-    #     alt: GitHub
+    items:
+      - image: /images/3windA.png
+        alt: Yorushika
+        size: 96
+      - image: /images/3windC.png
+        alt: 不会吉他
+        size: 96
+      - image: /images/3windD.png
+        size: 96
     #     link: https://github.com/yourname
+    #     alt: 
+
 
 # 首页文章卡片摘要的最大字符数（无 <!-- more --> 时按正文截断）
 excerpt_length: 96
