@@ -341,11 +341,16 @@ adsense:
 
 # 评论系统选择： twikoo | artalk （留空 / 删除则不启用评论区）
 # 只在文章和独立页面（layout: page）渲染；单篇可在 front-matter 用 `comments: false` 关闭。
+
 comments:
+  use: twikoo
+
+
 
 # Twikoo（https://twikoo.js.org，需自行部署后端 https://twikoo.js.org/quick-start.html）
 twikoo:
-  envId:                                # Twikoo 后端 URL，例如：https://twikoo.example.com
+  envId: https://taigua-tailang-blog.pages.dev/api/twikoo
+# Twikoo 后端 URL，例如：https://twikoo.example.com
   # cdn:                                # 可选；覆盖默认 jsDelivr CDN（私有镜像 / 企业 CDN）
 
 # Artalk（https://artalk.js.org，需自行部署后端 https://artalk.js.org/guide/deploy.html）
