@@ -349,7 +349,7 @@ comments:
 
 # Twikoo（https://twikoo.js.org，需自行部署后端 https://twikoo.js.org/quick-start.html）
 twikoo:
-  envId: https://taigua-tailang-blog.pages.dev/api/twikoo
+  envId: https://twikoo-cloudflare.3039704471.workers.dev/
 # Twikoo 后端 URL，例如：https://twikoo.example.com
   # cdn:                                # 可选；覆盖默认 jsDelivr CDN（私有镜像 / 企业 CDN）
 
