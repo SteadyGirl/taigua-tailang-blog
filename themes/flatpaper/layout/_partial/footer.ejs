@@ -99,3 +99,242 @@ normalizeLinkRows(f.links).map(renderLinkRow).filter(Boolean).forEach(function (
     </span>
   <% } %>
 </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+.music-item{
+  padding:8px 6px;
+  cursor:pointer;
+  border-bottom:1px solid #74593c;
+  color:#fffaf0; /*淡黄白色文字*/
+}
+.music-item:hover{
+  background:#a07d58; /*悬浮：更深的暖棕色*/
+}
+.music-item.playing{
+  background:#f8efe0; /*播放高亮：深一点的淡黄白色*/
+  color:#4a3724; /*高亮行文字改用深棕，保证看得清*/
+}
+#musicPanel{
+  width:320px; /* 修改面板总宽度，按需调整，例如320px，调小就写280px */
+  max-height:360px; /* 修改面板最大高度，控制列表最多显示行数 */
+  overflow:auto;
+  background:#8c6c48; /*列表面板：暖棕色背景*/
+  border:1px solid #74593c;
+  border-radius:8px;
+  position:fixed;
+  bottom:70px;
+  right:20px;
+  z-index:99999999;
+  padding:12px;
+  display:none;
+}
+#musicBtn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:99999999;
+  padding:8px 12px;
+  border:none;
+  border-radius:6px;
+  background:#8c6c48; /*按钮：暖棕色底色*/
+  color:#fffaf0; /*按钮文字：淡黄白色*/
+  cursor:move;
+  user-select:none;
+}
+.music-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:bold;
+  margin-bottom:8px;
+  color:#fffaf0; /*标题文字淡黄白*/
+  flex-direction:row-reverse; /*左右翻转，把关闭按钮挪到最左边，标题在右侧*/
+}
+.music-ctrl{
+  display:flex;
+  gap:6px;
+  margin-top:10px;
+  padding-top:8px;
+  border-top:1px solid #74593c;
+}
+.music-ctrl button{
+  flex:1;
+  padding:6px;
+  border:1px solid #74593c;
+  border-radius:4px;
+  background:#a07d58; /*控制按钮暖棕底色*/
+  color:#fffaf0; /*上一曲、下一曲文字：淡黄白色*/
+  cursor:pointer;
+}
+#closePanel{
+  cursor:pointer;
+  border:none;
+  background:transparent;
+  font-size:16px;
+  color:#fffaf0; /*关闭叉号淡黄白*/
+}
+
+</style>
+
+<button id="musicBtn">MUSIC !!!!!</button>
+
+<div id="musicPanel">
+  <div class="music-header">
+    <span>我的歌单</span>
+    <button id="closePanel">✕</button>
+  </div>
+  <div id="musicList"></div>
+  <div class="music-ctrl">
+    <button id="prevBtn">⏮上一首</button>
+    <button id="nextBtn">下一首⏭</button>
+  </div>
+</div>
+
+<audio id="audioPlayer">
+
+<script>
+// ==========【这里改你的歌曲！！】==========
+// 格式：["文件名.mp3","歌曲显示名字"]
+const songList = [
+  {src:"/music/椎名林檎 - 幸福論.mp3", name:"幸福論 - 椎名林檎"},
+  {src:"/music/Nujabes,Fat Jon - Battlecry.mp3", name:"Battlecry - Nujabes,Fat Jon"},
+  {src:"/music/Just the two of us - Bill Withers.mp3", name:"Just the two of us"}
+];
+// =========================================
+
+const btn = document.getElementById('musicBtn');
+const panel = document.getElementById('musicPanel');
+const closeBtn = document.getElementById('closePanel');
+const listWrap = document.getElementById('musicList');
+const audio = document.getElementById('audioPlayer');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+let currentIndex = -1;
+let isDragging = false;
+btn.isDragging = false;
+
+//渲染歌单
+songList.forEach((song, idx)=>{
+  const div = document.createElement('div');
+  div.className = "music-item";
+  div.innerText = song.name;
+  div.dataset.index = idx;
+  listWrap.appendChild(div);
+})
+
+//打开关闭弹窗
+btn.addEventListener('click',()=>{
+  if(btn.isDragging) return;
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+})
+closeBtn.addEventListener('click',()=>{
+  panel.style.display = 'none';
+})
+
+//点击歌曲播放暂停
+listWrap.addEventListener('click',e=>{
+  if(!e.target.classList.contains('music-item')) return;
+  const idx = Number(e.target.dataset.index);
+  playIndex(idx);
+})
+
+//核心播放函数
+function playIndex(idx){
+  if(idx <0 || idx >= songList.length) return;
+  const song = songList[idx];
+  //点当前播放项 → 暂停
+  if(currentIndex === idx && !audio.paused){
+    audio.pause();
+    clearPlayHighlight();
+    return;
+  }
+  currentIndex = idx;
+  clearPlayHighlight();
+  audio.src = song.src;
+  audio.play();
+  listWrap.children[idx].classList.add('playing');
+}
+
+function clearPlayHighlight(){
+  document.querySelectorAll('.music-item').forEach(el=>el.classList.remove('playing'));
+}
+
+//上一首
+prevBtn.addEventListener('click',()=>{
+  let newIdx = currentIndex - 1;
+  if(newIdx < 0) newIdx = songList.length -1;
+  playIndex(newIdx);
+})
+
+//下一首
+nextBtn.addEventListener('click',()=>{
+  let newIdx = currentIndex +1;
+  if(newIdx >= songList.length) newIdx = 0;
+  playIndex(newIdx);
+})
+
+//播放结束自动下一首
+audio.addEventListener('ended',()=>{
+  clearPlayHighlight();
+  let newIdx = currentIndex +1;
+  if(newIdx >= songList.length) newIdx =0;
+  playIndex(newIdx);
+})
+
+//拖拽逻辑
+btn.addEventListener('mousedown',(e)=>{
+  isDragging = true;
+  btn.isDragging = false;
+  const offsetX = e.clientX - btn.getBoundingClientRect().left;
+  const offsetY = e.clientY - btn.getBoundingClientRect().top;
+  e.preventDefault();
+
+  function onMouseMove(evt){
+    if(!isDragging) return;
+    btn.isDragging = true;
+    const x = evt.clientX - offsetX;
+    const y = evt.clientY - offsetY;
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+    btn.style.bottom = "auto";
+    btn.style.right = "auto";
+    panel.style.left = x + "px";
+    panel.style.top = (y - panel.offsetHeight - 8) + "px";
+  }
+
+  function onMouseUp(){
+    isDragging = false;
+    setTimeout(()=>{ btn.isDragging = false; },100);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  }
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+})
+</script>
+
+
+
+
+
+
+
+
+
