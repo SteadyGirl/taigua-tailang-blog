@@ -1,0 +1,52 @@
+// 动态创建 audio 元素
+const audioPlayer = document.createElement('audio');
+audioPlayer.id = 'audioPlayer';
+audioPlayer.preload = 'none';
+document.body.appendChild(audioPlayer);
+
+console.log("播放器脚本加载成功！", audioPlayer);
+
+// ========== 播放进度本地存储 ==========
+function saveProgress(songName, time) {
+  let progressData = JSON.parse(localStorage.getItem('musicProgress') || '{}');
+  progressData[songName] = time;
+  localStorage.setItem('musicProgress', JSON.stringify(progressData));
+  console.log("已保存进度", songName, time);
+}
+
+function getProgress(songName) {
+  let progressData = JSON.parse(localStorage.getItem('musicProgress') || '{}');
+  return progressData[songName] || 0;
+}
+
+// 暂停保存进度
+audioPlayer.addEventListener('pause', () => {
+  const songName = audioPlayer.dataset.songname;
+  console.log("pause触发，songname=", songName);
+  if (songName) saveProgress(songName, audioPlayer.currentTime);
+});
+
+// 播放完毕，清空记录
+audioPlayer.addEventListener('ended', () => {
+  const songName = audioPlayer.dataset.songname;
+  if (songName) {
+    let progressData = JSON.parse(localStorage.getItem('musicProgress') || '{}');
+    delete progressData[songName];
+    localStorage.setItem('musicProgress', JSON.stringify(progressData));
+  }
+});
+
+// ========== 播放调用函数（挂到全局window） ==========
+window.playSong = function(src, title) {
+  audioPlayer.src = src;
+  audioPlayer.dataset.songname = title;
+  const lastTime = getProgress(title);
+  console.log("读取上次进度", lastTime);
+  audioPlayer.onloadedmetadata = function () {
+    if (lastTime > 1) {
+      audioPlayer.currentTime = lastTime;
+      console.log("恢复到", lastTime.toFixed(1), "秒");
+    }
+    audioPlayer.play();
+  };
+};

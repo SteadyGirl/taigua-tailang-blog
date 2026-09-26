@@ -102,3 +102,10 @@ theme: flatpaper
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+
+
+# 自定义注入脚本
+inject:
+  bottom:
+    - <script src="/js/music-player.js"></script>
