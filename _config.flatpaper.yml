@@ -101,22 +101,22 @@ profile:
     path: /atom.xml
 
 welcome:
-  label: 今日份记录
-  title: 把日子，慢慢写下来
-  text: 生活不是每天都精彩，但总有值得收藏的片段。
+  label: 稚嫩的文字
+  title: 荒芜的生活
+  text: 我想种一架紫藤花，与我的家人生活其下。
   cta_text: 开始阅读
   cta_link: archives/
   # 自定义封面图。留空则使用 CSS 绘制的山景默认图。
   # 支持站内相对路径（如 /images/welcome.jpg，放在站点 source/ 下）或绝对 URL。
-  # image:
+  image: /images/elma7.png
 
 # 首页开屏大图。默认关闭，不影响已有站点；仅在首页第一页渲染。
 # 开启后默认复用 profile 的头像、简介、社交链接与 RSS，也可以在这里覆盖。
 home_hero:
   enable: true
   title: 太呱太郎
-  subtitle: 正在开发中……
-  bio: 吹けば青嵐 言葉も飛ばしてしまえ
+  subtitle: 久未到访
+  bio: 对镜方知身是客。
   avatar: /images/iteiA.jpg
   avatar_shape: circle
   #
